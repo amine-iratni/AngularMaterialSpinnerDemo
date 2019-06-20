@@ -14,17 +14,18 @@ export class CustomHttpInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    this.spinnerService.visibility = true;
+      this.spinnerService.show();
 
-    return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
-      // if the event is for http response
-      if (event instanceof HttpResponse) {
-        // stop our loader here
-        this.spinnerService.visibility = false;
-      }
-    }, (err: any) => {
-      // if any error we stop our loader bar
-      this.spinnerService.visibility = false;
-    })); 
+      return next
+          .handle(req)
+          .pipe(
+              tap((event: HttpEvent<any>) => {
+                  if (event instanceof HttpResponse) {
+                      this.spinnerService.hide();
+                  }
+              }, (error) => {
+                  this.spinnerService.hide();
+              })
+          );
   }
 }

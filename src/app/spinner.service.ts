@@ -1,26 +1,22 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpinnerService {
 
-  private visible: boolean;
-  listeners = [];
+  visibility: BehaviorSubject<boolean>;
 
   constructor() {
-    this.visible = false;
+    this.visibility = new BehaviorSubject(false);
   }
 
-  onVisibilityChange(fn) {
-    this.listeners.push(fn);
+  show() {
+    this.visibility.next(true);
   }
 
-  set visibility(value: boolean) {
-    this.visible = value;
-    this.listeners.forEach((fn) => {
-      fn(value);
-    });
+  hide() {
+    this.visibility.next(false);
   }
-
 }

@@ -15,9 +15,6 @@ export class AppComponent implements OnInit{
     private httpClient: HttpClient) { }
 
   ngOnInit() {
-    this.spinnerService.onVisibilityChange((value) => {
-      this.showSpinner = value;
-    });
   }
 
   doWork() {
